@@ -1,8 +1,8 @@
-import { isFunction, merge } from 'lodash';
+import { merge } from 'lodash';
 import m from 'mithril/hyperscript';
 import m_mount from 'mithril/mount';
 import m_route from 'mithril/route';
-
+import { isClass, isFunction, isNativeClass } from 'typechecker';
 
 export function initialize_app(app, props, initializations, options)
 {
@@ -45,7 +45,8 @@ export function run(app, components, routes, element, options)
         {
             for (let el of document.querySelectorAll(c.selector))
             {
-                if (isFunction(c.component))
+                if (isFunction(c.component) && !isNativeClass(c.component)
+                        && !isClass(c.component))
                 {
                     c.component(el, app);
                 }
